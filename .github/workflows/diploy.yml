@@ -22,7 +22,7 @@ jobs:
 
       - name: Build project
         run: |
-          pwd
+          ls
           npm run build
 
       - name: Upload production-ready build files
