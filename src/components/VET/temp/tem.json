@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Index",
+        "dataName": "id",
+        "inpType": "text",
+        "isEditable": false,
+        "dimension": "100px",
+        "minDimension": 100
+    },
+    {
+        "name": "Description",
+        "dataName": "description",
+        "inpType": "text",
+        "isEditable": true,
+        "dimension": "1fr",
+        "minDimension": 200
+    },
+    {
+        "name": "Paternity Leave",
+        "dataName": "PL",
+        "inpType": "number",
+        "isEditable": true,
+        "dimension": "1fr",
+        "minDimension": 200
+    },
+    {
+        "name": "Sick Leave",
+        "dataName": "SL",
+        "inpType": "number",
+        "isEditable": true,
+        "dimension": "1fr",
+        "minDimension": 200
+    },
+    {
+        "name": "Date",
+        "dataName": "date_of_create",
+        "inpType": "Date",
+        "isEditable": true,
+        "dimension": "200px",
+        "minDimension": 200
+    }
+]
