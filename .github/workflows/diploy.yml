@@ -19,10 +19,14 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          VITE_CONFIGURATION: ${{ secrets.VITE_CONFIGURATION }}
 
       - name: Build project
         run: |
-          ls
+          touch vite.config.js
+          echo -n "" > vite.config.js
+          echo "${{ secrets.SECRET_KEY }}" >> .env
           npm run build
 
       - name: Upload production-ready build files
