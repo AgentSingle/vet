@@ -34,7 +34,7 @@ jobs:
         run: |
           pwd
           ls
-          echo -n "" > vite.config.js
+          echo -n "" > ./vite.config.js
           npm run build
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
