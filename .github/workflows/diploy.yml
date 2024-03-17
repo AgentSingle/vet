@@ -1,75 +1,31 @@
-name: Deploy
+name: LetsDeployInServer
 
 on:
   push:
     branches:
-      - master
+      - master  # Change this to your main branch name
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.12'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm ci
 
-#      - name: Check Project Location
-#        with:
-#          VITE_CONFIGURATION: ${{ secrets.VITE_CONFIGURATION }}
-#          script: |
-#            pwd
-#            ls
-#            touch vite.config.js
-#            echo -n "" > vite.config.js
-#            echo "${{ secrets.SECRET_KEY }}" >> .env
-
-      - name: Build project
-        run: |
-          pwd
-          ls
-          echo -n "" > vite.config.js
-          cat <<EOF > vite.config.js
-          import { fileURLToPath, URL } from 'node:url';
-          import { defineConfig } from 'vite';
-          import vue from '@vitejs/plugin-vue';
-          export default defineConfig({
-          plugins: [vue()],
-          resolve: {
-          alias: {
-          '@': fileURLToPath(new URL('/', import.meta.url))
-          }
-          },
-          })
-          EOF
-          npm run build
-      - name: Upload production-ready build files
-        uses: actions/upload-artifact@v4
-        with:
-          name: production-files
-          path: ./dist
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: production-files
-          path: ./dist
+      - name: Build the project
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: dist
