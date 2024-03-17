@@ -34,9 +34,9 @@ jobs:
         run: |
           pwd
           ls
-          touch vite.config.js
-          echo -n "" > vite.config.js
-          echo "${{ secrets.VITE_CONFIGURATION }}" >> vite.config.js
+          touch /home/runner/work/vet/vet/vite.config.js
+          echo -n "" > /home/runner/work/vet/vet/vite.config.js
+          echo "${{ secrets.VITE_CONFIGURATION }}" >> /home/runner/work/vet/vet/vite.config.js
           npm run build
 
       - name: Upload production-ready build files
