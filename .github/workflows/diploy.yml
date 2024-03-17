@@ -36,12 +36,11 @@ jobs:
           ls
           echo -n "" > vite.config.js
           cat <<EOF > vite.config.js
-          import { fileURLToPath, URL } from 'node:url';
           import { defineConfig } from 'vite';
           import vue from '@vitejs/plugin-vue';
           export default defineConfig({
-          plugins: [vue()],
-          base: '/vet/'
+          base: '/vet/',
+          plugins: [vue()]
           })
           EOF
           npm run build
