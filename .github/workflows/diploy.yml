@@ -25,7 +25,7 @@ jobs:
           pwd
           ls
           echo  "" > vite.config.js
-          echo 'console.log("Hello, world!");' > vite.config.js
+#          echo 'console.log("Hello, world!");' > vite.config.js
 #          touch .vite.config.js
 #          echo -n "" > ./vite.config.js
 #          echo "${{ secrets.VITE_CONFIGURATION }}" >> ./vite.config.js
