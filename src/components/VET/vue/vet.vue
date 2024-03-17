@@ -1,25 +1,76 @@
 <script setup>
 import { ref, onMounted  } from 'vue';
-import veTable from './veTable.vue';
+import veTableHeading from './veTableHeading.vue';
 import { generateRandomData } from '../javascript/randomDataGenerator';
+let tableGridStyle = ref('100px 1fr 1fr 1fr 1fr');
+let tableMinWidth = ref('800px');
+let vetTableHeaderItems = ref([]);
+
+let props = defineProps({
+    VetHederItems: Object,
+    VetDimensions: Object,
+    vetDefaultItems: Object,
+})
+
+
 let dataList = ref([])
 onMounted(()=>{
+
+    if(props.vetDefaultItems){
+        let dD = props.vetDefaultItems; // default data
+
+        // MINIMUM WIDHT-SETUP OF THE SCROLLABLE TABLE
+        let sumMinDimensions = dD.reduce((acc, obj) => acc + obj.minDimension, 0);
+        tableMinWidth.value = `${sumMinDimensions}px`;
+
+        // GIVING DIMENSION TO EACH INDIVIDUAL TABLE ROW
+        tableGridStyle.value = dD.map(value => `${value.dimension}`).join(' ');
+
+        // CREATE HEADER TABLE NAME
+        vetTableHeaderItems.value = dD.map(obj => obj.name);
+    }
+
+    // TEMPORARY DATA GENERATOR
     let resp = generateRandomData(50);
     dataList.value = resp;
-    console.warn(resp)
 })
+
+
+
 </script>
 
 <template>
     <div class="vetDataDisplayContainer">
-        <div class="vetHeading">
-            <veTable type="Heading"></veTable>
+
+        <!-- TABEL HEADING CONTAINER -->
+        <div class="vetHeading" 
+        :style="{'min-width': tableMinWidth}">
+            <veTableHeading
+            :HeaderItems="vetTableHeaderItems"
+            :tableGridStyle="tableGridStyle"
+            ></veTableHeading>
         </div>
-        <div class="vetBody">
+
+        <!-- TABEL BODY CONTAINER -->
+        <div class="vetBody"
+        :style="{'min-width': tableMinWidth}">
+
             <div v-for="data in dataList"  v-bind:key="data.id" class="vetBodyContent">
-                <veTable :dataObj="data" type="Content"></veTable>
+
+                <div class="vetTableWrapper" :style="{'grid-template-columns': tableGridStyle}">
+
+                    <div v-for="(item, index) in vetTableHeaderItems" :key="index" 
+                    class="vetTableContent">
+                        {{ data[vetDefaultItems[index].dataName] }}
+<!-- {{ props.vetDefaultItems[index].dataName}} -->
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
+
     </div>
 </template>
 
@@ -35,7 +86,7 @@ onMounted(()=>{
     display: grid;
     overflow-y: scroll;
     overflow-x: hidden;
-    min-width: 800px;
+    /* min-width: 800px; */
 }
 .vetBody{
     max-height: calc(100vh - 120px);
@@ -43,6 +94,18 @@ onMounted(()=>{
     display: grid;
     overflow-y: scroll;
     overflow-x: hidden;
-    min-width: 800px;
+    /* min-width: 800px; */
 }
 </style>
+
+<style scoped>
+.vetTableWrapper{
+    display: grid;
+    text-align: left;
+}
+.vetTableContent{
+    box-sizing: border-box;
+    border: 1px solid blue;
+    padding: 5px;
+}
+</style>./veTable.vue./veTableHeading.vue
