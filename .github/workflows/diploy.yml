@@ -34,7 +34,16 @@ jobs:
         run: |
           pwd
           ls
-          echo -n "" > ./vite.config.js
+          echo -n "" > vite.config.js
+          cat <<EOF > vite.config.js
+          import { fileURLToPath, URL } from 'node:url';
+          import { defineConfig } from 'vite';
+          import vue from '@vitejs/plugin-vue';
+          export default defineConfig({
+          plugins: [vue()],
+          base: '/vet/'
+          })
+          EOF
           npm run build
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
