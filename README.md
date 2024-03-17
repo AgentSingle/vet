@@ -1,10 +1,21 @@
 # This Project Is Under Development
-## VET (it is a project => vue3-editable-table)
+### VET (vue3-editable-table)
+![alt text](https://github.com/AtaOta/vet/blob/update/src/assets/Vet_Screen_Short.png)
 
-# Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# <hr>
 
-## Recommended IDE Setup
+## Requrements
+#### node version v18.12.1
+#### npm version 8.19.2
+#### Vue 3 + Vite
+### Start Command
+```commandline
+npm i
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# <hr>
+
+## How to Use:
+
+# <hr>

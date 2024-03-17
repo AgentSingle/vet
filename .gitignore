@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
+src/components/VET/temp
 dist-ssr
 *.local
 
