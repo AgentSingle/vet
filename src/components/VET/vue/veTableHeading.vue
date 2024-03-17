@@ -23,5 +23,7 @@ let props = defineProps({
     box-sizing: border-box;
     border: 1px solid blue;
     padding: 5px;
+    display: flex;
+    align-items: center;
 }
 </style>
