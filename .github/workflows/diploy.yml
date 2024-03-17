@@ -19,9 +19,12 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+
+      - name: Check Project Location
         with:
           VITE_CONFIGURATION: ${{ secrets.VITE_CONFIGURATION }}
           script: |
+            pwd
             ls
 #            touch vite.config.js
 #            echo -n "" > vite.config.js
