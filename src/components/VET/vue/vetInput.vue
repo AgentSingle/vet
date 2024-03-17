@@ -12,6 +12,7 @@ let inputName = ref('no_name');
 onMounted(()=>{
     if (props.inpValue[props.inpName] != undefined){
         // console.warn(props.inpValue[props.inpName])
+        inputName.value = `${props.inpRowId}_${props.inpCellId}_${props.inpName}`;
         inputValue.value = props.inpValue[props.inpName]
     }
 })
