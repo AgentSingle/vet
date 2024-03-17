@@ -21,13 +21,14 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           VITE_CONFIGURATION: ${{ secrets.VITE_CONFIGURATION }}
+          script: |
+            ls
+#            touch vite.config.js
+#            echo -n "" > vite.config.js
+#            echo "${{ secrets.SECRET_KEY }}" >> .env
 
       - name: Build project
-        run: |
-          touch vite.config.js
-          echo -n "" > vite.config.js
-          echo "${{ secrets.SECRET_KEY }}" >> .env
-          npm run build
+        run: npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
