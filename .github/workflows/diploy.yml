@@ -34,13 +34,7 @@ jobs:
         run: |
           pwd
           ls
-#          echo  "" > vite.config.js
-#          echo 'console.log("Hello, world!");' > vite.config.js
-#          touch .vite.config.js
-#          echo -n "" > ./vite.config.js
-#          echo "${{ secrets.VITE_CONFIGURATION }}" >> ./vite.config.js
           npm run build
-
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
         with:
