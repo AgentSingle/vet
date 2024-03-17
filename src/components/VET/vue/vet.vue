@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted  } from 'vue';
 import veTableHeading from './veTableHeading.vue';
-import { generateRandomData } from '../javascript/randomDataGenerator';
+import vetInput from './vetInput.vue';
 let tableGridStyle = ref('100px 1fr 1fr 1fr 1fr');
 let tableMinWidth = ref('800px');
 let vetTableHeaderItems = ref([]);
@@ -10,10 +10,9 @@ let props = defineProps({
     VetHederItems: Object,
     VetDimensions: Object,
     vetDefaultItems: Object,
+    vetData: Object,
 })
 
-
-let dataList = ref([])
 onMounted(()=>{
 
     if(props.vetDefaultItems){
@@ -29,10 +28,6 @@ onMounted(()=>{
         // CREATE HEADER TABLE NAME
         vetTableHeaderItems.value = dD.map(obj => obj.name);
     }
-
-    // TEMPORARY DATA GENERATOR
-    let resp = generateRandomData(50);
-    dataList.value = resp;
 })
 
 
@@ -55,14 +50,30 @@ onMounted(()=>{
         <div class="vetBody"
         :style="{'min-width': tableMinWidth}">
 
-            <div v-for="data in dataList"  v-bind:key="data.id" class="vetBodyContent">
+            <!-- TABLE INDIVIDUAL ROW -->
+            <div v-for="data in props.vetData"  v-bind:key="data.id" class="vetBodyContent">
 
                 <div class="vetTableWrapper" :style="{'grid-template-columns': tableGridStyle}">
 
+                    <!-- TABLE INDIVIDUAL CELL -->
                     <div v-for="(item, index) in vetTableHeaderItems" :key="index" 
                     class="vetTableContent">
-                        {{ data[vetDefaultItems[index].dataName] }}
-<!-- {{ props.vetDefaultItems[index].dataName}} -->
+                        <!-- {{ data[vetDefaultItems[index].dataName] }} -->
+                        <!-- {{ props.vetDefaultItems[index].dataName}} -->
+                        <!-- {{ props.vetDefaultItems[index].isEditable}} -->
+                        <span v-if="props.vetDefaultItems[index].isEditable">
+                            <vetInput
+                            :inpRowId="data.id"
+                            :inpCellId="index"
+                            :inpType="props.vetDefaultItems[index].inpType"
+                            :inpName="vetDefaultItems[index].dataName"
+                            :inpValue="data"
+                            ></vetInput>
+                        </span>
+
+                        <span v-else style="padding: 5px;">
+                            {{ data[vetDefaultItems[index].dataName] }}
+                        </span>
                     </div>
 
                 </div>
@@ -106,6 +117,6 @@ onMounted(()=>{
 .vetTableContent{
     box-sizing: border-box;
     border: 1px solid blue;
-    padding: 5px;
+    padding: 1px;
 }
-</style>./veTable.vue./veTableHeading.vue
+</style>
