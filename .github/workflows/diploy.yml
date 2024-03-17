@@ -20,18 +20,21 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
-      - name: Check Project Location
-        with:
-          VITE_CONFIGURATION: ${{ secrets.VITE_CONFIGURATION }}
-          script: |
-            pwd
-            ls
+#      - name: Check Project Location
+#        with:
+#          VITE_CONFIGURATION: ${{ secrets.VITE_CONFIGURATION }}
+#          script: |
+#            pwd
+#            ls
 #            touch vite.config.js
 #            echo -n "" > vite.config.js
 #            echo "${{ secrets.SECRET_KEY }}" >> .env
 
       - name: Build project
-        run: npm run build
+        run: |
+          pwd
+          ls
+          npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
