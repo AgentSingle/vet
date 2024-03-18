@@ -37,5 +37,6 @@ section {
   width: 100vw;
   position: fixed;
   background-color: white;
+  color: black;
 }
 </style>
