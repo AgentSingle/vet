@@ -32,6 +32,10 @@ git commit -m "adding dist, VERSION-1.0.1"
 ```sh
 git subtree push --prefix dist origin gh-pages
 ```
+### change js and css file path 
+
+### vet/blob/gh-pages/
+
 
 # <hr>
 

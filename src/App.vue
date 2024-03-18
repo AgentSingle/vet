@@ -1,11 +1,9 @@
 <script setup>
-import Home from '@/components/Home.vue';
+import Home from "./components/Home.vue";
 </script>
 
 <template>
-  <header>
-  <img src="/vet.svg" alt="Logo"> VET (vue editable table)
-  </header>
+  <header><img src="/vet.svg" alt="Logo" /> VET (vue editable table)</header>
 
   <section>
     <Home></Home>
@@ -13,13 +11,17 @@ import Home from '@/components/Home.vue';
 </template>
 
 <style scoped>
-header{
+header {
   position: fixed;
   left: 0;
   top: 0;
   height: 50px;
   width: 100vw;
-  background: linear-gradient(90deg, rgba(65,209,255,1) 0%, rgba(189,52,254,1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(65, 209, 255, 1) 0%,
+    rgba(189, 52, 254, 1) 100%
+  );
   /* background-color: blueviolet; */
   display: flex;
   align-items: center;
@@ -28,7 +30,7 @@ header{
   font-weight: 600;
   color: white;
 }
-section{
+section {
   height: calc(100vh - 50px);
   top: 50px;
   left: 0;
