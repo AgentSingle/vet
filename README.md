@@ -22,20 +22,9 @@ npm run build
 ## 1
 ```sh
  git add dist -f
+ git commit -m "adding dist, VERSION-1.0.1"
+ git subtree push --prefix dist origin gh-pages
 ```
-## 2
-```sh
-git commit -m "adding dist, VERSION-1.0.1"
-```
-
-## 3
-```sh
-git subtree push --prefix dist origin gh-pages
-```
-### change js and css file path 
-
-### vet/blob/gh-pages/
-
 
 # <hr>
 
