@@ -32,7 +32,11 @@ jobs:
           import vue from '@vitejs/plugin-vue';
           export default defineConfig({
           plugins: [vue()],
-          base: '/vet/'
+          resolve: {
+          alias: {
+          '@': fileURLToPath(new URL('/assets/', import.meta.url))
+          }
+          },
           })
           EOF
           npm run build
