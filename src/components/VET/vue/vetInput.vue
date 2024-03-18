@@ -43,6 +43,7 @@ watch(inputValue, () => {
 }
 .EditableTableInput:focus {
   outline: none;
+  border: none;
   background-color: #cae1fa;
 }
 </style>
