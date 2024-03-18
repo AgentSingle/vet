@@ -21,6 +21,7 @@ let props = defineProps({
 }
 .veTableContent {
   box-sizing: border-box;
+  color: black;
   border: 1px solid blue;
   padding: 5px;
   display: flex;
