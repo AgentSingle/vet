@@ -40,6 +40,7 @@ watch(inputValue, () => {
   transform: translateY(-2px);
   border: none;
   background-color: transparent;
+  color: black;
 }
 .EditableTableInput:focus {
   outline: none;
