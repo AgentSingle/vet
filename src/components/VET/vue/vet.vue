@@ -105,8 +105,8 @@ onMounted(() => {
 }
 .vetTableContent {
   box-sizing: border-box;
-  border: 1px solid blue;
-  /* border: 1px solid purple; */
+  /* border: 1px solid blue; */
+  border: 1px solid purple;
   padding: 1px;
 }
 </style>
