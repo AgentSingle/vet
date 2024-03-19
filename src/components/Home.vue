@@ -4,7 +4,7 @@ import { generateRandomData } from "./VET/temp/randomDataGenerator";
 let dataList = ref([]);
 onMounted(() => {
   // TEMPORARY DATA GENERATOR
-  let resp = generateRandomData(100);
+  let resp = generateRandomData(50);
   dataList.value = resp;
 });
 
@@ -51,10 +51,18 @@ let tableDefaultItems = ref([
     minDimension: 120,
   },
 ]);
+
+const setModifiedData = (e) => {
+  console.warn(e);
+};
 </script>
 
 <template>
-  <vet :vetDefaultItems="tableDefaultItems" :vetData="dataList"></vet>
+  <vet
+    :vetDefaultItems="tableDefaultItems"
+    :vetData="dataList"
+    @tableDataChangeResponse="setModifiedData"
+  ></vet>
 </template>
 
 <style scoped></style>

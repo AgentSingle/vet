@@ -1,5 +1,8 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineEmits } from "vue";
+import { debounce } from "../js/algorithm.js";
+const emit = defineEmits(["retunInputValue"]);
+
 let props = defineProps({
   inpType: String,
   inpRowId: Number,
@@ -16,8 +19,19 @@ onMounted(() => {
     inputValue.value = props.inpValue[props.inpName];
   }
 });
+
+const debouncedFunction = debounce(() => {
+  let dataObj = {
+    id: props.inpRowId,
+    key: props.inpName,
+    value: inputValue.value,
+  };
+  emit("retunInputValue", dataObj);
+}, 300);
+
 watch(inputValue, () => {
-  console.warn(inputValue.value);
+  debouncedFunction();
+  //   console.warn(inputValue.value);
 });
 </script>
 
@@ -35,13 +49,14 @@ watch(inputValue, () => {
 
 <style scoped>
 .EditableTableInput {
-  width: calc(100% - 4px);
-  height: calc(100% - 4px);
+  width: calc(100%);
+  height: calc(100%);
   transform: translateY(-1px);
   border: none;
+  outline: none;
   background-color: transparent;
-  color: black;
 }
+
 .EditableTableInput:focus {
   outline: none;
   border: none;
