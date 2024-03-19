@@ -31,7 +31,7 @@ header {
   color: white;
 }
 section {
-  height: calc(100vh - 50px);
+  height: calc(100dvh - 50px);
   top: 50px;
   left: 0;
   width: 100vw;

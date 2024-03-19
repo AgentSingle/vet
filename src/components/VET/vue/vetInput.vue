@@ -37,7 +37,7 @@ watch(inputValue, () => {
 .EditableTableInput {
   width: calc(100% - 4px);
   height: calc(100% - 4px);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   border: none;
   background-color: transparent;
   color: black;
