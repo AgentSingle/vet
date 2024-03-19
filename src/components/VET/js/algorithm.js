@@ -45,3 +45,22 @@ export const addOrReplaceObject = async (array, newObject) =>{
     // Return the updated array
     return array;
 }
+
+export const checkItemInsideArray = (array, itemToCheck) =>{
+    let checking = array.includes(itemToCheck);
+    return checking;
+}
+
+export const addOrRemoveItemFromArray = (array, item) => {
+    const index = array.indexOf(item);
+
+    if (index !== -1) {
+        // Item already exists, so remove it
+        array.splice(index, 1);
+    } else {
+        // Item does not exist, so add it
+        array.push(item);
+    }
+
+    return array;
+}
