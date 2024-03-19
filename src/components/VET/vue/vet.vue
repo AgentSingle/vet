@@ -1,16 +1,23 @@
 <script setup>
-import { ref, onMounted, defineEmits } from "vue";
+import { ref, onMounted, defineEmits, watch } from "vue";
 const emit = defineEmits(["tableDataChangeResponse"]);
 import veTableHeading from "./veTableHeading.vue";
 import vetInput from "./vetInput.vue";
 import IconDelete from "../../VET/icon/IconDelete.vue";
-import { modifyObjectById, addOrReplaceObject } from "../js/algorithm.js";
+import {
+  modifyObjectById,
+  addOrReplaceObject,
+  checkItemInsideArray,
+  addOrRemoveItemFromArray,
+} from "../js/algorithm.js";
+
 let tableGridStyle = ref("100px 1fr 1fr 1fr 1fr");
 let tableMinWidth = ref("800px");
 let vetTableHeaderItems = ref([]);
 let chckBoxWidth = ref(40);
 let defaultActionWidth = ref(40);
 let isSaveButtonVisable = ref(false);
+let isDeleteAllButtonVisable = ref(false);
 
 let props = defineProps({
   VetHederItems: Object,
@@ -81,8 +88,9 @@ const setChangeValue = async (e) => {
 };
 
 // =====================[ Handel table header response ]=====================
+let selctedItems = ref([]);
 const tableHeaderResponse = (e) => {
-  console.warn(e);
+  // console.warn(e);
   switch (e) {
     case "SaveALL":
       isSaveButtonVisable.value = false;
@@ -90,11 +98,22 @@ const tableHeaderResponse = (e) => {
       modifiedData.value = [];
       break;
     case "SelectAll":
+      selctedItems.value = props.vetData.map((obj) => obj.id);
       break;
     case "UnSelectAll":
+      selctedItems.value = [];
       break;
     default:
       message = "Invalid Action!";
+  }
+};
+
+const addOrReplaceFromSelectedItems = (e) => {
+  selctedItems.value = addOrRemoveItemFromArray(selctedItems.value, e);
+  if (selctedItems.value.length > 1) {
+    isDeleteAllButtonVisable.value = true;
+  } else {
+    isDeleteAllButtonVisable.value = false;
   }
 };
 </script>
@@ -107,6 +126,7 @@ const tableHeaderResponse = (e) => {
         :HeaderItems="vetTableHeaderItems"
         :tableGridStyle="tableGridStyle"
         :isSaveButtonVisable="isSaveButtonVisable"
+        :isDeleteAllButtonVisable="isDeleteAllButtonVisable"
         @tableActionResponse="tableHeaderResponse"
       ></veTableHeading>
     </div>
@@ -121,7 +141,12 @@ const tableHeaderResponse = (e) => {
             class="vetTableContent"
             style="display: flex; align-items: center; justify-content: center"
           >
-            <input type="checkbox" name="myCheckbox" value="yes" />
+            <input
+              type="checkbox"
+              name="myCheckbox"
+              :checked="checkItemInsideArray(selctedItems, data.id) == true"
+              @click="addOrReplaceFromSelectedItems(data.id)"
+            />
           </div>
 
           <!-- STYLING INDIVIDUAL DELETE ACTION BUTTON -->

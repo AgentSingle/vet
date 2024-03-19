@@ -8,6 +8,7 @@ let props = defineProps({
   HeaderItems: Object,
   tableGridStyle: String,
   isSaveButtonVisable: Boolean,
+  isDeleteAllButtonVisable: Boolean,
 });
 
 /*
@@ -15,19 +16,30 @@ let props = defineProps({
   hide add button & display delete all button
 */
 let isChecked = ref(false);
-let isAddItemButtom = ref(true);
-let isDeleteAllButtom = ref(false);
+let isAddItemButton = ref(true);
+let isDeleteAllButton = ref(false);
 watch(isChecked, () => {
   if (isChecked.value) {
-    isAddItemButtom.value = false;
-    isDeleteAllButtom = true;
+    buttonVisibility(false, true);
     emit("tableActionResponse", "SelectAll");
   } else {
-    isAddItemButtom.value = true;
-    isDeleteAllButtom = false;
+    buttonVisibility(true, false);
     emit("tableActionResponse", "UnSelectAll");
   }
 });
+
+watch(props, () => {
+  if (props.isDeleteAllButtonVisable) {
+    buttonVisibility(false, true);
+  } else {
+    buttonVisibility(true, false);
+  }
+});
+
+const buttonVisibility = (val1, val2) => {
+  isAddItemButton.value = val1;
+  isDeleteAllButton = val2;
+};
 
 const saveAll = () => {
   emit("tableActionResponse", "SaveALL");
@@ -44,7 +56,7 @@ const saveAll = () => {
     <!-- ==============[ ACTION BUTTON SECTION ]============== -->
     <!-- Add Button -->
     <div
-      v-if="isAddItemButtom & !props.isSaveButtonVisable"
+      v-if="isAddItemButton & !props.isSaveButtonVisable"
       class="veTableContent"
       style="justify-content: center"
     >
@@ -66,7 +78,7 @@ const saveAll = () => {
 
     <!-- Delete Button -->
     <div
-      v-if="isDeleteAllButtom & !props.isSaveButtonVisable"
+      v-if="isDeleteAllButton & !props.isSaveButtonVisable"
       class="veTableContent"
       style="justify-content: center"
     >
@@ -103,11 +115,14 @@ button :focus {
   display: grid;
   text-align: left;
   overflow: hidden;
+  border-bottom: 1px solid blue;
+  box-sizing: border-box;
 }
 
 .veTableContent {
   box-sizing: border-box;
   border: 1px solid blue;
+  box-sizing: border-box;
   padding: 5px;
   display: flex;
   align-items: center;
