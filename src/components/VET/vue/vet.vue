@@ -1,7 +1,9 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineEmits } from "vue";
+const emit = defineEmits(["tableDataChangeResponse"]);
 import veTableHeading from "./veTableHeading.vue";
 import vetInput from "./vetInput.vue";
+import { modifyObjectById, addOrReplaceObject } from "../js/algorithm.js";
 let tableGridStyle = ref("100px 1fr 1fr 1fr 1fr");
 let tableMinWidth = ref("800px");
 let vetTableHeaderItems = ref([]);
@@ -28,6 +30,43 @@ onMounted(() => {
     vetTableHeaderItems.value = dD.map((obj) => obj.name);
   }
 });
+
+/*
+UPDATE DATA ACCORDING TO INPUT AND RETURN AN ARRAY OBJECT
+1) Check if this data already present inside newly-created 
+array [ modifiedData ]
+2) If not find anything in new-array then Find out perticular object from data-list (data array)
+3) Change its value using KEY-Name
+4) Store this this object inside a new array
+*/
+let modifiedData = ref([]);
+const setChangeValue = async (e) => {
+  const idToUpdate = e.id;
+  const keyToUpdate = e.key;
+  const valueToUpdate = e.value;
+  let previousData = props.vetData;
+  let newData = modifiedData.value;
+  // console.warn(props.vetData);
+  // console.warn(idToUpdate, keyToUpdate, valueToUpdate);
+
+  let respOne = await modifyObjectById(newData, idToUpdate, keyToUpdate, valueToUpdate);
+
+  if (respOne == undefined) {
+    let respTwo = await modifyObjectById(
+      previousData,
+      idToUpdate,
+      keyToUpdate,
+      valueToUpdate
+    );
+    modifiedData.value.push(respTwo);
+  } else {
+    let arrResp = await addOrReplaceObject(newData, respOne);
+    modifiedData.value = arrResp;
+    // console.warn(arrResp);
+  }
+  // console.warn(modifiedData.value);
+  emit("tableDataChangeResponse", modifiedData.value);
+};
 </script>
 
 <template>
@@ -40,7 +79,7 @@ onMounted(() => {
       ></veTableHeading>
     </div>
 
-    <!-- TABEL BODY CONTAINER -->
+    <!-- ================[ TABEL BODY CONTAINER ]================ -->
     <div class="vetBody" :style="{ 'min-width': tableMinWidth }">
       <!-- TABLE INDIVIDUAL ROW -->
       <div v-for="data in props.vetData" v-bind:key="data.id" class="vetBodyContent">
@@ -51,9 +90,7 @@ onMounted(() => {
             :key="index"
             class="vetTableContent"
           >
-            <!-- {{ data[vetDefaultItems[index].dataName] }} -->
-            <!-- {{ props.vetDefaultItems[index].dataName}} -->
-            <!-- {{ props.vetDefaultItems[index].isEditable}} -->
+            <!-- INPUT WRAPPER CONTAINER WITH INPUT COMPONENT -->
             <span v-if="props.vetDefaultItems[index].isEditable">
               <vetInput
                 :inpRowId="data.id"
@@ -61,7 +98,9 @@ onMounted(() => {
                 :inpType="props.vetDefaultItems[index].inpType"
                 :inpName="vetDefaultItems[index].dataName"
                 :inpValue="data"
-              ></vetInput>
+                @retunInputValue="setChangeValue"
+              >
+              </vetInput>
             </span>
 
             <span v-else style="padding: 5px">
@@ -80,6 +119,7 @@ onMounted(() => {
   overflow-x: scroll;
   overflow-y: hidden;
 }
+
 .vetHeading {
   height: 50px;
   /* background-color: blue; */
@@ -88,6 +128,7 @@ onMounted(() => {
   overflow-x: hidden;
   /* min-width: 800px; */
 }
+
 .vetBody {
   max-height: calc(100vh - 120px);
   /* background-color: yellow; */
@@ -103,9 +144,11 @@ onMounted(() => {
   display: grid;
   text-align: left;
 }
+
 .vetTableContent {
   box-sizing: border-box;
   border: 1px solid blue;
-  padding: 1px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 </style>

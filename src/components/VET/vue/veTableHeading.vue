@@ -19,6 +19,7 @@ let props = defineProps({
   text-align: left;
   color: black;
 }
+
 .veTableContent {
   box-sizing: border-box;
   color: black;
