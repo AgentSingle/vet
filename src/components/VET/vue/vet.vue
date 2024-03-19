@@ -94,12 +94,7 @@ const setChangeValue = async (e) => {
             class="vetTableContent"
             style="display: flex; align-items: center; justify-content: center"
           >
-            <input
-              type="checkbox"
-              name="myCheckbox"
-              value="yes"
-              style="background-color: transparent"
-            />
+            <input type="checkbox" name="myCheckbox" value="yes" style="color: white" />
           </div>
 
           <!-- TABLE INDIVIDUAL CELL -->
