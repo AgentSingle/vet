@@ -55,7 +55,6 @@ watch(inputValue, () => {
   border: none;
   outline: none;
   background-color: transparent;
-  color: black;
 }
 
 .EditableTableInput:focus {
