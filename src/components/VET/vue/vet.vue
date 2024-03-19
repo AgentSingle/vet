@@ -7,33 +7,38 @@ import { modifyObjectById, addOrReplaceObject } from "../js/algorithm.js";
 let tableGridStyle = ref("100px 1fr 1fr 1fr 1fr");
 let tableMinWidth = ref("800px");
 let vetTableHeaderItems = ref([]);
+let chckBoxWidth = ref(40);
 
 let props = defineProps({
   VetHederItems: Object,
-  VetDimensions: Object,
   vetDefaultItems: Object,
   vetData: Object,
 });
 
 onMounted(() => {
+  let cbWidth = chckBoxWidth.value;
+
   if (props.vetDefaultItems) {
     let dD = props.vetDefaultItems; // default data
 
     // MINIMUM WIDHT-SETUP OF THE SCROLLABLE TABLE
     let sumMinDimensions = dD.reduce((acc, obj) => acc + obj.minDimension, 0);
-    tableMinWidth.value = `${sumMinDimensions}px`;
+    tableMinWidth.value = `${cbWidth + sumMinDimensions}px`;
 
     // GIVING DIMENSION TO EACH INDIVIDUAL TABLE ROW
-    tableGridStyle.value = dD.map((value) => `${value.dimension}`).join(" ");
+    let gridStyle = dD.map((value) => `${value.dimension}`).join(" ");
+    tableGridStyle.value = `${cbWidth}px ${gridStyle}`;
+    console.warn(tableGridStyle.value);
 
     // CREATE HEADER TABLE NAME
     vetTableHeaderItems.value = dD.map((obj) => obj.name);
+    // headerItems.unshift("checkbox");
   }
 });
 
 /*
 UPDATE DATA ACCORDING TO INPUT AND RETURN AN ARRAY OBJECT
-1) Check if this data already present inside newly-created 
+1) Check if this data already present inside newly-created
 array [ modifiedData ]
 2) If not find anything in new-array then Find out perticular object from data-list (data array)
 3) Change its value using KEY-Name
@@ -84,6 +89,14 @@ const setChangeValue = async (e) => {
       <!-- TABLE INDIVIDUAL ROW -->
       <div v-for="data in props.vetData" v-bind:key="data.id" class="vetBodyContent">
         <div class="vetTableWrapper" :style="{ 'grid-template-columns': tableGridStyle }">
+          <!-- STYLING INDIVIDUAL CHECKBOX -->
+          <div
+            class="vetTableContent"
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <input type="checkbox" name="myCheckbox" value="yes" />
+          </div>
+
           <!-- TABLE INDIVIDUAL CELL -->
           <div
             v-for="(item, index) in vetTableHeaderItems"

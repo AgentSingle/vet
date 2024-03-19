@@ -7,6 +7,9 @@ let props = defineProps({
 
 <template>
   <div class="veTableWrapper" :style="{ 'grid-template-columns': props.tableGridStyle }">
+    <div class="veTableContent" style="justify-content: center">
+      <input type="checkbox" name="myCheckbox" value="yes" />
+    </div>
     <div v-for="item in HeaderItems" :key="item.id" class="veTableContent">
       {{ item }}
     </div>
@@ -18,6 +21,7 @@ let props = defineProps({
   display: grid;
   text-align: left;
   color: black;
+  overflow: hidden;
 }
 
 .veTableContent {
