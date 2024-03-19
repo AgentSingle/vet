@@ -10,6 +10,7 @@ let tableMinWidth = ref("800px");
 let vetTableHeaderItems = ref([]);
 let chckBoxWidth = ref(40);
 let defaultActionWidth = ref(40);
+let isSaveButtonVisable = ref(false);
 
 let props = defineProps({
   VetHederItems: Object,
@@ -49,11 +50,14 @@ array [ modifiedData ]
 */
 let modifiedData = ref([]);
 const setChangeValue = async (e) => {
+  isSaveButtonVisable.value = true; // Display Save All Button
+
   const idToUpdate = e.id;
   const keyToUpdate = e.key;
   const valueToUpdate = e.value;
   let previousData = props.vetData;
   let newData = modifiedData.value;
+
   // console.warn(props.vetData);
   // console.warn(idToUpdate, keyToUpdate, valueToUpdate);
 
@@ -73,7 +77,25 @@ const setChangeValue = async (e) => {
     // console.warn(arrResp);
   }
   // console.warn(modifiedData.value);
-  emit("tableDataChangeResponse", modifiedData.value);
+  // emit("tableDataChangeResponse", modifiedData.value);
+};
+
+// =====================[ Handel table header response ]=====================
+const tableHeaderResponse = (e) => {
+  console.warn(e);
+  switch (e) {
+    case "SaveALL":
+      isSaveButtonVisable.value = false;
+      emit("tableDataChangeResponse", modifiedData.value);
+      modifiedData.value = [];
+      break;
+    case "SelectAll":
+      break;
+    case "UnSelectAll":
+      break;
+    default:
+      message = "Invalid Action!";
+  }
 };
 </script>
 
@@ -84,6 +106,8 @@ const setChangeValue = async (e) => {
       <veTableHeading
         :HeaderItems="vetTableHeaderItems"
         :tableGridStyle="tableGridStyle"
+        :isSaveButtonVisable="isSaveButtonVisable"
+        @tableActionResponse="tableHeaderResponse"
       ></veTableHeading>
     </div>
 
@@ -106,7 +130,7 @@ const setChangeValue = async (e) => {
             style="display: flex; align-items: center; justify-content: center"
           >
             <button>
-              <IconDelete :dimension="20" iconColor="red"></IconDelete>
+              <IconDelete :dimension="20" iconColor="#fc038c"></IconDelete>
             </button>
           </div>
 

@@ -1,15 +1,37 @@
 <script setup>
-import { ref, watch } from "vue";
-import IconDelete from "../../VET/icon/IconDelete.vue";
+import { ref, watch, defineEmits } from "vue";
+const emit = defineEmits(["tableActionResponse"]);
+import IconDeleteAll from "../../VET/icon/IconDeleteAll.vue";
 import IconAdd from "../../VET/icon/IconAdd.vue";
+import IconSave from "../../VET/icon/IconSave.vue";
 let props = defineProps({
   HeaderItems: Object,
   tableGridStyle: String,
+  isSaveButtonVisable: Boolean,
 });
+
+/*
+  ON CLICK GLOBAL SELCTOR BUTTON 
+  hide add button & display delete all button
+*/
 let isChecked = ref(false);
+let isAddItemButtom = ref(true);
+let isDeleteAllButtom = ref(false);
 watch(isChecked, () => {
-  console.warn(isChecked.value);
+  if (isChecked.value) {
+    isAddItemButtom.value = false;
+    isDeleteAllButtom = true;
+    emit("tableActionResponse", "SelectAll");
+  } else {
+    isAddItemButtom.value = true;
+    isDeleteAllButtom = false;
+    emit("tableActionResponse", "UnSelectAll");
+  }
 });
+
+const saveAll = () => {
+  emit("tableActionResponse", "SaveALL");
+};
 </script>
 
 <template>
@@ -19,20 +41,42 @@ watch(isChecked, () => {
       <input type="checkbox" name="myCheckbox" v-model="isChecked" />
     </div>
 
-    <!-- ACTION -->
-    <div class="veTableContent" style="justify-content: center">
+    <!-- ==============[ ACTION BUTTON SECTION ]============== -->
+    <!-- Add Button -->
+    <div
+      v-if="isAddItemButtom & !props.isSaveButtonVisable"
+      class="veTableContent"
+      style="justify-content: center"
+    >
       <button>
         <IconAdd :dimension="20" iconColor="green"></IconAdd>
       </button>
     </div>
-    <!-- <div class="veTableContent" style="justify-content: center">
-      <button>
-        <IconDelete :dimension="20" iconColor="red"></IconDelete>
+
+    <!-- Save Button -->
+    <div
+      v-if="props.isSaveButtonVisable"
+      class="veTableContent"
+      style="justify-content: center"
+    >
+      <button @click="saveAll">
+        <IconSave :dimension="25" iconColor="green"></IconSave>
       </button>
-    </div> -->
+    </div>
+
+    <!-- Delete Button -->
+    <div
+      v-if="isDeleteAllButtom & !props.isSaveButtonVisable"
+      class="veTableContent"
+      style="justify-content: center"
+    >
+      <button>
+        <IconDeleteAll :dimension="22" iconColor="#fc038c"></IconDeleteAll>
+      </button>
+    </div>
 
     <!-- DYANMIC CONTENT -->
-    <div v-for="item in HeaderItems" :key="item.id" class="veTableContent">
+    <div v-for="item in props.HeaderItems" :key="item.id" class="veTableContent">
       {{ item }}
     </div>
   </div>
