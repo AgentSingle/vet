@@ -4,7 +4,7 @@ import { generateRandomData } from "./VET/temp/randomDataGenerator";
 let dataList = ref([]);
 onMounted(() => {
   // TEMPORARY DATA GENERATOR
-  let resp = generateRandomData(50);
+  let resp = generateRandomData(100);
   dataList.value = resp;
 });
 
